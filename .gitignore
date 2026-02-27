@@ -1,3 +1,4 @@
 test/
 sza/conus_latlon/
 sza/*.ipynb
+sza/__pycache__/
