@@ -2,3 +2,4 @@ test/
 sza/conus_latlon/
 sza/*.ipynb
 sza/__pycache__/
+sza/.ipynb_checkpoints/
