@@ -1,0 +1,26 @@
+#========================================================
+# File: sza-image-creator.yaml
+# Version: 1.0.0
+# Author: Kevin Thiel
+# Creation Date: February 2026
+# Description: Settings that make sza-image-creator.py adaptable for mulitple cases
+#========================================================
+
+availabe-cases: ['20250528-conus']
+
+20250528-conus:
+
+  plot-name: 
+
+  input-loc: 
+  output-loc: 
+
+  start-time: 
+  end-time: 
+  delta-time: 5
+
+  plot-bounds: 
+
+
+  sza-calc: 'sza' #'sza' or 'raw'
+  ch-num: '02'
