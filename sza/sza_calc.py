@@ -129,14 +129,14 @@ def sza_calculator_v2_exact(dset, sza_threshold=88.85):
     '''
 
     if dset.scene_id=='CONUS':
-        tstart = datetime.now()
+        #tstart = datetime.now()
         lats, lons = lat_lon_loader_conus(dset)
-        print ('Data Load: '+str(datetime.now()-tstart))
+        #print ('Data Load: '+str(datetime.now()-tstart))
     else:
         #Calculating the lats/lons from the geostationary projection coordinates (radians)
-        tstart = datetime.now()
+        #tstart = datetime.now()
         lats, lons = calculate_degrees(dset)
-        print ('Rad2Deg Calculation: '+str(datetime.now()-tstart))
+        #print ('Rad2Deg Calculation: '+str(datetime.now()-tstart))
 
     #Getting the time to use in solar zenith angle calculation
     time = pd.to_datetime(dset.time_coverage_start)
@@ -144,7 +144,7 @@ def sza_calculator_v2_exact(dset, sza_threshold=88.85):
     tstart = datetime.now()
     #Calculating the cosine of solar zenith angle
     cos_zen_grid = pyob_cos_zen(time, lons, lats)
-    print ('cos SZA Calculation: '+str(datetime.now()-tstart))
+    # print ('cos SZA Calculation: '+str(datetime.now()-tstart)) #DEVMODE
 
     #Masking out pixels with a sun angle < 0 and too close to sunrise/sunset
     cos_sza_threshold = np.cos(np.radians(sza_threshold))

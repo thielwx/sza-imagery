@@ -6,21 +6,34 @@
 # Description: Settings that make sza-image-creator.py adaptable for mulitple cases
 #========================================================
 
-availabe-cases: ['20250528-conus']
+availabe-cases: ['20250528-conus-02']
 
-20250528-conus:
+20250528-conus-02:
 
-  plot-name: 
+    plot-name: 'ABI19-Ch 2 SZA - Imagery Test'
 
-  input-loc: 
-  output-loc: 
+    input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
+    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/conus-ch02-figs/'
 
-  start-time: 
-  end-time: 
-  delta-time: 5
+    start-time: '202505281801' #If conus data, must end in 1 or 6
+    end-time: '202505282356'
+    delta-time: '5'
 
-  plot-bounds: 
+    plot-bounds: [-115,-68,25,50] #LONMIN, LONMAX, LATMIN, LATMAX
 
+    ch-num: '02'
 
-  sza-calc: 'sza' #'sza' or 'raw'
-  ch-num: '02'
+20250528-tx-02:
+
+    plot-name: 'ABI19-Ch 2 SZA Imagery - Texas Supercell'
+
+    input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
+    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/tx-ch02-figs/'
+
+    start-time: '202505281801' #If conus data, must end in 1 or 6
+    end-time: '202505282356'
+    delta-time: '5'
+
+    plot-bounds: [-101,-95,29,33] #LONMIN, LONMAX, LATMIN, LATMAX
+
+    ch-num: '02'

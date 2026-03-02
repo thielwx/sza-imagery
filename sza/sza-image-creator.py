@@ -18,13 +18,22 @@ import netCDF4 as nc
 import sza_calc as sza
 import os
 
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Change the current working directory to the script's directory
+os.chdir(script_dir)
+
+
 #Importing the appropriate yaml file
 with open('sza-image-creator.yaml', 'r') as f:
     sfile = yaml.safe_load(f)
 
 args = sys.argv
-#args = ['','20250528-tx-supercell', '1'] #Devmode
+#args = ['','20250528-tx-supercell', 'sza'] #Devmode
 case = args[1]
+
+sza_switch = args[2]
 
 #Reading in data from yaml file
 input_loc = sfile[case]['input-loc']
@@ -38,13 +47,12 @@ pbounds = sfile[case]['plot-bounds']
 
 dt_str = sfile[case]['delta-time']
 
-sza_switch = sfile[case]['sza-calc']
 ch_num = sfile[case]['ch-num']
 
 #Getting the time variables established
 start_time = datetime.strptime(stime_str, '%Y%m%d%H%M')
 end_time = datetime.strptime(etime_str, '%Y%m%d%H%M')
-time_list = pd.date_range(start=start_time, end=end_time, freq=dt_str+'min')
+time_list = pd.date_range(start=start_time, end=end_time, freq=str(dt_str)+'min')
 
 
 
@@ -76,7 +84,7 @@ def datetime_converter(time):
 
 
 def cmi_file_finder(input_loc,input_file_time_str):
-    file_str = input_loc+'$'+input_file_time_str+'$.nc'
+    file_str = input_loc+'*'+input_file_time_str+'*.nc'
     file_search = glob(file_str)
 
     if len(file_search)==1:
@@ -93,7 +101,7 @@ def cmi_file_finder(input_loc,input_file_time_str):
 
 def plot_data(dset):
     geo_crs = ccrs.Geostationary(central_longitude=dset.variables['goes_imager_projection'].longitude_of_projection_origin, satellite_height=dset.variables['goes_imager_projection'].perspective_point_height, sweep_axis='x')
-    extent = np.concat((dset.variables['x_image_bounds'][:],dset.variables['y_image_bounds'][::-1]), axis=0) * dset.variables['goes_imager_projection'].perspective_point_height
+    extent = np.concatenate((dset.variables['x_image_bounds'][:],dset.variables['y_image_bounds'][::-1]), axis=0) * dset.variables['goes_imager_projection'].perspective_point_height
     return geo_crs, extent
 
 
@@ -132,11 +140,12 @@ for t in time_list:
     orbital_slot = dset.orbital_slot
     scene_id = dset.scene_id
     platform_id = dset.platform_ID
-    output_loc_full = output_loc+platform_id+'-'+scene_id+'/'
+    output_loc_full = output_loc+platform_id+'-'+scene_id+'-'+sza_switch+'/'
 
     if not os.path.exists(output_loc_full):
         os.makedirs(output_loc_full)
 
+    full_output_str = output_loc_full+platform_id+'-'+scene_id+'-CH'+ch_num+'-'+sza_switch+'-'+output_file_time_str+'.png'
 
     #Making the plot
     fig = plt.figure(figsize=(14,9))
@@ -146,6 +155,8 @@ for t in time_list:
     ax.coastlines(resolution='10m', color='black', linewidth=1)
     ax.add_feature(ccrs.cartopy.feature.STATES)
     ax.set_extent(pbounds)
-    ax.set_title(pltname+'\n'+orbital_slot+' '+scene_id+' - '+plot_time_str)
+    ax.set_title(pltname+'\n'+orbital_slot+' '+scene_id+' - ('+sza_switch+') - '+plot_time_str)
     
-    plt.savefig(output_loc_full+platform_id+'-'+scene_id+'-CH'+ch_num+'-'+sza_switch+'-'+output_file_time_str+'.png', facecolor='w', dpi=300)
+    plt.savefig(full_output_str, facecolor='w', dpi=300)
+    plt.close()
+    print (full_output_str)

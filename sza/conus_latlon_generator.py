@@ -9,10 +9,20 @@ import netCDF4 as nc
 import numpy as np
 import os
 import sza_calc as sza
+import sys
+
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Change the current working directory to the script's directory
+os.chdir(script_dir)
+
+args = sys.argv
+#local_dir = args[1]
 
 #Location of reference files automatically uploaded to Github and used as a refernece for calculating the conus latlon files
-file_loc = '../ref_files'
-output_loc = 'conus_latlon/'
+file_loc = 'ref_files/'
+output_loc = 'sza/conus_latlon/'
 
 if not os.path.exists(output_loc):
     os.makedirs(output_loc)
@@ -59,7 +69,7 @@ for f in file_list:
     lon_str = output_loc+slot+'-conus-'+res+'-lon.npz'
 
     np.savez_compressed(lat_str, data=lat.data, mask=lat.mask)
-    np.savez_compressed(, data=lon.data, mask=lon.mask)
+    np.savez_compressed(lon_str, data=lon.data, mask=lon.mask)
 
     print ('Files Saved:')
     print (lat_str)
