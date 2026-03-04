@@ -189,19 +189,20 @@ def resample(input_field, input_lats, input_lons, target_lats, target_lons):
 #Quick function to convert simple values into color space
 def color_space_converter(val, vmin, vmax, vgamma):
     color_val = ((val-vmin) / (vmax-vmin))**(1/vgamma)
-    return color_val
+    return np.clip(color_val, a_min=0.0, a_max=1.0) #Returning with clipped values from 0-1
 
 #Function for creating the day cloud phase distinction RGB
-def rgb_creator_dcpd(r_dset,g_dset,b_dset, scene, sza_adjustment=False):
+def rgb_creator_dcpd(r_dset,g_dset,b_dset, scene='MESO', sza_adjustment=False):
     '''
     Creates the Day Cloud Phase Distinction RGB (default) from the three RGB bands as input
     
     :param r_dset: red band dataset (netCDF)
     :param g_dset: green band dataset (netCDF)
     :param b_dset: blue band dataset (netCDF)
-    :param scene: 'CONUS' or 'MESO' 
+    :param scene: 'CONUS' or 'MESO' (str). Default is 'MESO' to force calculation of lat/lon values
+    :param sza_adjustment: True or False for applying sza adjustment (bool)
 
-    :returns: rgb
+    :returns: rgb: stacked dataset with the rgb values (0-1)
     '''
     #Constants
     rmin = 280.65

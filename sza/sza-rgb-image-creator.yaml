@@ -1,0 +1,29 @@
+#========================================================
+# File: sza-rgb-image-creator.yaml
+# Version: 1.0.0
+# Author: Kevin Thiel
+# Creation Date: March 2026
+# Description: Settings that make sza-rgb-image-creator.py adaptable for mulitple cases/RGBs
+#========================================================
+
+availabe-cases: ['20250528-conus-dcpd']
+
+20250528-conus-dcpd:
+
+    plot-name: 'ABI19-Day Cloud Phase Distinction RGB Test'
+
+    r-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch13/'
+    g-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
+    b-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch05/'
+    
+    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/conus-dcpd-rgb-figs/'
+
+    start-time: '202505281801' #If conus data, must end in 1 or 6
+    end-time: '202505282356'
+    delta-time: '5'
+
+    rgb-type: 'DCPD'
+    scene-type: 'CONUS'
+
+    plot-bounds: [-115,-68,25,50] #LONMIN, LONMAX, LATMIN, LATMAX
+
