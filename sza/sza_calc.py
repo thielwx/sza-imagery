@@ -13,6 +13,8 @@ import pandas as pd
 from datetime import datetime
 from pyproj import Proj
 from pyresample import SwathDefinition, kd_tree
+import warnings
+warnings.filterwarnings("ignore")
 
 
 
@@ -64,17 +66,17 @@ def sza_calculator_v1_exact(dset, sza_threshold=88.85):
     '''
 
     #Calculating the lats/lons from the geostationary projection coordinates (radians)
-    tstart = datetime.now()
+    #tstart = datetime.now()
     lats, lons = calculate_degrees(dset)
-    print ('Rad2Deg Calculation: '+str(datetime.now()-tstart))
+    #print ('Rad2Deg Calculation: '+str(datetime.now()-tstart))
 
     #Getting the time to use in solar zenith angle calculation
     time = pd.to_datetime(dset.time_coverage_start)
 
-    tstart = datetime.now()
+    #tstart = datetime.now()
     #Calculating the cosine of solar zenith angle
     cos_zen_grid = pyob_cos_zen(time, lons, lats)
-    print ('cos SZA Calculation: '+str(datetime.now()-tstart))
+    #print ('cos SZA Calculation: '+str(datetime.now()-tstart))
 
     #Masking out pixels with a sun angle < 0 and too close to sunrise/sunset
     cos_sza_threshold = np.cos(np.radians(sza_threshold))
