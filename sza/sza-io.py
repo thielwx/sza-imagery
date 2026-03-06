@@ -10,6 +10,7 @@ import os
 import sys
 import netCDF4 as nc
 import shutil
+import numpy as np
 
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,9 +28,9 @@ if not os.path.exists(output_file_loc):
     os.makedirs(output_file_loc)
 
 #Creating the new file str to (almost) match the old one
-target_str = 'OR_ABI-L2-'
+target_str = '_ABI-L2-'
 target_str_loc = input_file_str.find(target_str)
-output_file_str = input_file_str[target_str_loc:]
+output_file_str = input_file_str[target_str_loc-2:]
 
 #Modifying the new output file string to include SZA
 target_str = 'CMIP'
