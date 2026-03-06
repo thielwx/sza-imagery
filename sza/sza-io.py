@@ -20,9 +20,10 @@ os.chdir(script_dir)
 
 #Reading in input variables from user
 args = sys.argv
-#args = ['','../test/20260224-1411-combo/OR_ABI-L2-CMIPC-M6C02_G19_s20260551411177_e20260551413550_c20260551414061.nc', '../test/20260224-1411-combo/'] #Devmode
+#args = ['','../test/20260224-1411-combo/OR_ABI-L2-CMIPC-M6C02_G19_s20260551411177_e20260551413550_c20260551414061.nc', '../test/20260224-1411-combo/', '88.85'] #Devmode
 input_file_str = args[1]
 output_file_loc = args[2]
+sza_threshold = args[3]
 
 if not os.path.exists(output_file_loc):
     os.makedirs(output_file_loc)
@@ -49,7 +50,7 @@ shutil.copy(input_file_str, output_file_loc+output_file_str)
 dset = nc.Dataset(output_file_loc+output_file_str, 'r+')
 
 #Getting the sza cmi values (currently using default sza_angle_threshold)
-cmi_sza = sza.sza_calculator_v2_exact(dset)
+cmi_sza = sza.sza_calculator_v2_exact(dset, sza_threshold=sza_threshold)
 
 #Overwriting the cmi data with the sza cmi values
 dset.variables['CMI'][:] = cmi_sza
