@@ -1,0 +1,14 @@
+#========================================================
+# File: realtime-conus-aws.yaml
+# Version: 1.0.0
+# Author: Kevin Thiel
+# Creation Date: March 2026
+# Description: Settings that make realtime-conus-aws-io.py adaptable
+#========================================================
+
+channels: ['C02','C05']
+slots: ['G19']
+temp-file-loc: '/localdata/sza-realtime/temp/'
+output-loc: '/localdata/sza-realtime/data/'
+sza-threshold: '88.85'
+timeout-limit: 120

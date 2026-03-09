@@ -13,6 +13,8 @@ import pandas as pd
 from datetime import datetime
 from pyproj import Proj
 from pyresample import SwathDefinition, kd_tree
+import shutil
+import os
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -272,3 +274,88 @@ def datetime_converter(time):
     m = datetime.strftime(time,'%m') #Month
     
     return y, m, d, doy, hr, mi
+
+
+#Convertime the datetime to the CONUS start times every 1st and 6th minute per ten minutes
+def file_time_converter(time):
+    #Getting the time difference from the 0 and 5 ones place
+    dt_int = int(time.strftime('%M'))%5
+
+    if dt_int==0:
+        dt_int=5
+    
+    #Getting the target file times from the most recent file 
+    new_time = time - timedelta(minutes=int(dt_int)-1)
+
+    return new_time
+
+
+#A function that takes in a netcdf file, calculates the sza cmi, and outputs that data as a modified copy of the original file
+def sza_io(input_file_str, output_file_loc, sza_threshold = 88.85):
+    if not os.path.exists(output_file_loc):
+        os.makedirs(output_file_loc)
+
+    #Creating the new file str to (almost) match the old one
+    target_str = '_ABI-L2-'
+    target_str_loc = input_file_str.find(target_str)
+    output_file_str = input_file_str[target_str_loc-2:]
+
+    #Modifying the new output file string to include SZA
+    target_str = 'CMIP'
+    target_str_loc = output_file_str.find(target_str)
+    output_file_str = output_file_str[:target_str_loc]+'SZA'+output_file_str[target_str_loc:]
+
+    if os.path.exists(output_file_loc+output_file_str):
+        print ('WARNING: FILE ALREADY EXISTS')
+        print (output_file_loc+output_file_str)
+        #sys.exit()
+
+    #Creating a copy of the image file, then we'll overwrite the copy
+    shutil.copy(input_file_str, output_file_loc+output_file_str)
+
+    #Opening the file in write mode
+    dset = nc.Dataset(output_file_loc+output_file_str, 'r+')
+
+    #Getting the sza cmi values (currently using default sza_angle_threshold)
+    cmi_sza = sza_calculator_v2_exact(dset, sza_threshold=sza_threshold)
+
+    #Overwriting the cmi data with the sza cmi values
+    dset.variables['CMI'][:] = cmi_sza
+
+    dset.dataset_name = output_file_str
+    dset.title =  dset.title+' (Solar Zenith Angle-Adjusted)'
+    dset.summary = dset.summary+' Original imagery has been adjusted by its solar zenith angle from https://github.com/thielwx/sza-imagery/.'
+
+    #Closing the dataset
+    dset.close()
+    
+    return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
