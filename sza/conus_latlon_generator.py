@@ -21,8 +21,8 @@ args = sys.argv
 #local_dir = args[1]
 
 #Location of reference files automatically uploaded to Github and used as a refernece for calculating the conus latlon files
-file_loc = 'ref_files/'
-output_loc = 'sza/conus_latlon/'
+file_loc = '../ref_files/'
+output_loc = 'conus_latlon/'
 
 if not os.path.exists(output_loc):
     os.makedirs(output_loc)

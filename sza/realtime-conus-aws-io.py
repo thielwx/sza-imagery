@@ -25,7 +25,7 @@ os.chdir(script_dir)
 
 #Getting the current time
 start_datetime = datetime.now()
-cur_file_time = file_time_converter()
+cur_file_time = sza.file_time_converter(start_datetime)
 y, m, d, doy, hr, mi = sza.datetime_converter(cur_file_time)
 dload_time = y+'-'+m+'-'+d+'T'+hr+':'+mi+':00Z'
 
@@ -63,13 +63,23 @@ for slot in slots:
     
     #Adding the files to a list that we'll pull from
     t_files_new = [temp_file_loc+f for f in t_files]
-    temp_file_list = temp_file_list.extend(t_files_new)
+    temp_file_list.extend(t_files_new)
+
+
+
+#Driver funciton that processes the data in parallel
+def realtime_driver(temp_file):
+    global output_loc
+    global sza_threshold
+    sza.sza_io(temp_file, output_loc, sza_threshold)
+
+    os.remove(temp_file)
 
 
 #sending the file names to be processed
 if __name__ == "__main__":
     with mp.Pool(processes=12) as p:
-        p.starmap_async(realtime_driver,temp_file_list)
+        async_result = p.starmap_async(realtime_driver,zip(temp_file_list))
 
         #Ensuring we don't get a stuck process
         try:
@@ -82,13 +92,7 @@ if __name__ == "__main__":
 
 
 
-#Driver funciton that processes the data in parallel
-def realtime_driver(temp_file):
-    global output_loc
-    global sza_threshold
-    sza.sza_io(temp_file, output_loc, sza_threshold)
 
-    os.remove(temp_file)
 
 
     
