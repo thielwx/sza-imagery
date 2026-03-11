@@ -33,6 +33,12 @@ start_datetime = datetime.now()
 tdelta_hr = timedelta(hours=3)
 tdelta_1day = timedelta(hours=24)
 
+
+#==========================================================
+#Temp files
+#==========================================================
+
+# *** PREV DAY ***
 #Only run the daily wiper when more than three hours into a day
 if int(datetime.strftime(start_datetime,'%H'))>=3:
     #Getting the previous day string needed to check    
@@ -47,7 +53,11 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
         except OSError as e:
             print(f"Error removing directory: {e}")
 
+#==========================================================
+#Output files
+#==========================================================
 
+#***********PREV HR**************
 #Getting the previous hours string that we can pull data from
 t = start_datetime - tdelta_hr
 y, m, d, doy, hr, mi = sza.datetime_converter(t)
@@ -66,4 +76,19 @@ if len(file_list)>0:
             print(f"Permission denied to delete the file '{file_path}'.")
         except Exception as e:
             print (f"Error occurred while deleting the file '{f}': {e}")
+
+#***********PREV DAY**************
+#Only run the daily wiper when more than three hours into a day
+if int(datetime.strftime(start_datetime,'%H'))>=3:
+    #Getting the previous day string needed to check    
+    t = start_datetime - tdelta_1day
+    y, m, d, doy, hr, mi = sza.datetime_converter(t)
+    hr_str_temp = output_loc + '*s' + y + doy
+    
+    #If the path still exists, remove yesterday's directory
+    if os.path.exists(hr_str_temp):
+        try:
+            shutil.rmtree(hr_str_temp)        
+        except OSError as e:
+            print(f"Error removing directory: {e}")
 
