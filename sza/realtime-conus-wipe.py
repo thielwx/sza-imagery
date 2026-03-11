@@ -61,7 +61,7 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
 #Getting the previous hours string that we can pull data from
 t = start_datetime - tdelta_hr
 y, m, d, doy, hr, mi = sza.datetime_converter(t)
-hr_str_temp = output_loc + '*s' + y + doy + hr
+hr_str_temp = output_loc + '*s' + y + doy + hr + '*.nc'
 
 file_list = glob(hr_str_temp)
 
@@ -83,8 +83,8 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
     #Getting the previous day string needed to check    
     t = start_datetime - tdelta_1day
     y, m, d, doy, hr, mi = sza.datetime_converter(t)
-    hr_str_temp = output_loc + '*s' + y + doy
-
+    hr_str_temp = output_loc + '*s' + y + doy + '*.nc'
+    print (hr_str_temp)
     file_list = glob(hr_str_temp)
     
     #If there's files, delete them
