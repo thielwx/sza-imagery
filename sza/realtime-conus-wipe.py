@@ -84,11 +84,18 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
     t = start_datetime - tdelta_1day
     y, m, d, doy, hr, mi = sza.datetime_converter(t)
     hr_str_temp = output_loc + '*s' + y + doy
+
+    file_list = glob(hr_str_temp)
     
-    #If the path still exists, remove yesterday's directory
-    if os.path.exists(hr_str_temp):
-        try:
-            shutil.rmtree(hr_str_temp)        
-        except OSError as e:
-            print(f"Error removing directory: {e}")
+    #If there's files, delete them
+    if len(file_list)>0:
+        for f in file_list:
+            try:
+                os.remove(f)
+            except FileNotFoundError:
+                print(f"File '{file_path}' not found.")
+            except PermissionError:
+                print(f"Permission denied to delete the file '{file_path}'.")
+            except Exception as e:
+                print (f"Error occurred while deleting the file '{f}': {e}")
 
