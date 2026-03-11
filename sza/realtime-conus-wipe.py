@@ -51,7 +51,7 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
 #Getting the previous hours string that we can pull data from
 t = start_datetime - tdelta_hr
 y, m, d, doy, hr, mi = sza.datetime_converter(t)
-hr_str_temp = output_file_loc + '*s' + y + doy + hr
+hr_str_temp = output_loc + '*s' + y + doy + hr
 
 file_list = glob(hr_str_temp)
 
