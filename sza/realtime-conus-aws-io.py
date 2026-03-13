@@ -29,6 +29,7 @@ cur_file_time = sza.file_time_converter(start_datetime)
 y, m, d, doy, hr, mi = sza.datetime_converter(cur_file_time)
 dload_time = y+'-'+m+'-'+d+'T'+hr+':'+mi+':00Z'
 
+print('**************'+str(start_datetime)+'**************')
 
 #Importing the appropriate yaml file
 with open('realtime-conus-aws-io.yaml', 'r') as f:
@@ -91,20 +92,4 @@ if __name__ == "__main__":
         p.close()
         p.join()
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
+print ('Finshed, runtime: '+str(datetime.now()-start_datetime))
