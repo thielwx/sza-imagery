@@ -15,7 +15,7 @@ availabe-cases: ['20250528-conus-02']
     input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
     output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/conus-ch02-figs/'
 
-    start-time: '202505290001' #If conus data, must end in 1 or 6
+    start-time: '202505281801' #If conus data, must end in 1 or 6
     end-time: '202505290156'
     delta-time: '5'
 
@@ -30,7 +30,7 @@ availabe-cases: ['20250528-conus-02']
     input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
     output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/tx-ch02-figs/'
 
-    start-time: '202505290001' #If conus data, must end in 1 or 6
+    start-time: '202505281801' #If conus data, must end in 1 or 6
     end-time: '202505290156'
     delta-time: '5'
 
