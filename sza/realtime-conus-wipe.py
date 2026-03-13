@@ -30,6 +30,8 @@ output_loc = sfile['output-loc']
 #Getting the current time
 start_datetime = datetime.now()
 
+print('**************'+str(start_datetime)+'**************')
+
 tdelta_hr = timedelta(hours=3)
 tdelta_1day = timedelta(hours=24)
 
@@ -49,7 +51,8 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
     #If the path still exists, remove yesterday's directory
     if os.path.exists(day_str_temp):
         try:
-            shutil.rmtree(day_str_temp)        
+            shutil.rmtree(day_str_temp)
+            print (day_str_temp)        
         except OSError as e:
             print(f"Error removing directory: {e}")
 
@@ -70,6 +73,7 @@ if len(file_list)>0:
     for f in file_list:
         try:
             os.remove(f)
+            print (f)
         except FileNotFoundError:
             print(f"File '{file_path}' not found.")
         except PermissionError:
@@ -84,7 +88,7 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
     t = start_datetime - tdelta_1day
     y, m, d, doy, hr, mi = sza.datetime_converter(t)
     hr_str_temp = output_loc + '*s' + y + doy + '*.nc'
-    print (hr_str_temp)
+    
     file_list = glob(hr_str_temp)
     
     #If there's files, delete them
@@ -92,10 +96,13 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
         for f in file_list:
             try:
                 os.remove(f)
+                print (hr_str_temp)
             except FileNotFoundError:
                 print(f"File '{file_path}' not found.")
             except PermissionError:
                 print(f"Permission denied to delete the file '{file_path}'.")
             except Exception as e:
                 print (f"Error occurred while deleting the file '{f}': {e}")
+
+print ('Finshed, runtime: '+str(datetime.now()-start_datetime))
 
