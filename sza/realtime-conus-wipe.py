@@ -46,7 +46,7 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
     #Getting the previous day string needed to check    
     t = start_datetime - tdelta_1day
     y, m, d, doy, hr, mi = sza.datetime_converter(t)
-    day_str_temp = temp_file_loc + y + '/' + doy + '/'
+    day_str_temp = temp_file_loc + '/' + y + '/' + doy + '/'
     
     #If the path still exists, remove yesterday's directory
     if os.path.exists(day_str_temp):
