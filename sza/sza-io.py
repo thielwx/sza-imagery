@@ -24,6 +24,7 @@ args = sys.argv
 input_file_str = args[1]
 output_file_loc = args[2]
 sza_threshold = float(args[3])
+sza_lambda = 0.95
 
 #Running in sza_calc now as a function to streamline realtime processing
-sza.sza_io(input_file_str, output_file_loc, sza_threshold)
+sza.sza_io(input_file_str, output_file_loc, sza_threshold, sza_lambda)

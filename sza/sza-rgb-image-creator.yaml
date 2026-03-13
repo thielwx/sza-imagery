@@ -16,7 +16,7 @@ availabe-cases: ['20250528-conus-dcpd']
     g-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
     b-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch05/'
     
-    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/conus-dcpd-rgb-figs/'
+    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/conus-dcpd-rgb-figs-v3/'
 
     start-time: '202505290001' #If conus data, must end in 1 or 6
     end-time: '202505290156'
@@ -34,7 +34,7 @@ availabe-cases: ['20250528-conus-dcpd']
     r-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch13/'
     g-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch02/'
     b-input-loc: '/users/kthiel/Research/sza-cases/20250528-conus/data/conus-ch05/'
-    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/tx-dcpd-rgb-figs/'
+    output-loc: '/users/kthiel/Research/sza-cases/20250528-conus/figures/tx-dcpd-rgb-figs-v2/'
 
     start-time: '202505290001' #If conus data, must end in 1 or 6
     end-time: '202505290156'
