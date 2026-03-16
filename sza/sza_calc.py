@@ -16,6 +16,12 @@ from pyresample import SwathDefinition, kd_tree
 import shutil
 import os
 from datetime import datetime, timedelta
+
+# Import the locator and datasource according to your desired product
+from goesdl.goesr import GOESProductLocatorABIPP
+from goesdl.datasource import DatasourceAWS
+from goesdl.downloader import Downloader
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -336,6 +342,33 @@ def sza_io(input_file_str, output_file_loc, sza_threshold = 88.85, sza_lambda = 
     return 0
 
 
+#Function that pulls ABI CMIP CONUS data from AWS
+def aws_downloader(slots, channels, dload_loc, start_time, end_time):
+    
+    #Empty file list we'll use to know where our temporary files are
+    dload_file_list = []
+
+    #Looping in case we're pulling from multiple satellites (GOES-East/-West)
+    for slot in slots:
+        # Initialize the product locator for GOES-R Series (set your desired product)
+        locator = GOESProductLocatorABIPP("CMIP", "C", channels, slot)
+        datasource = DatasourceAWS(locator, cache=600)
+
+        # Initialize the downloader with the locator and datasource
+        downloader = Downloader(
+            datasource=datasource,
+            locator=locator,
+            repository=dload_loc,
+        )
+
+        #Downloading the files from AWS at the time specified
+        d_files = downloader.download_files(start=start_time, end=end_time)
+        
+        #Adding the files to a list that we'll pull from
+        d_files_new = [dload_loc+f for f in d_files]
+        dload_file_list.extend(d_files_new)
+
+    return dload_file_list
 
 
 
