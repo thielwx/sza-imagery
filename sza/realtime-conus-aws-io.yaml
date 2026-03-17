@@ -7,7 +7,7 @@
 #========================================================
 
 channels: ['C02','C05']
-slots: ['G19','G18]
+slots: ['G19','G18']
 temp-file-loc: '/localdata/sza-realtime/temp/'
 output-loc: '/localdata/sza-realtime/data/'
 sza-threshold: 88.85
