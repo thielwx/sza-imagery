@@ -96,7 +96,7 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
         for f in file_list:
             try:
                 os.remove(f)
-                print (hr_str_temp)
+                print (f)
             except FileNotFoundError:
                 print(f"File '{file_path}' not found.")
             except PermissionError:
