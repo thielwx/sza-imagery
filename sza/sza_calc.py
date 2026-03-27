@@ -129,7 +129,7 @@ def lat_lon_loader_conus(dset):
 
 # Second attempt to calculate the solar zenith angle for CMI imagery faster
 # This method calculates sza for each pixel individually ONLY for MESO data (CONUS is pulled from pre-saved npz file)
-def sza_calculator_v2_exact(dset, sza_threshold=88.85, sza_lambda=0.95):
+def sza_calculator_v2_exact(dset, sza_threshold=88.85, sza_nu=0.968):
     '''
     Inputs:
         dset: netCDF4 dataset
@@ -153,16 +153,18 @@ def sza_calculator_v2_exact(dset, sza_threshold=88.85, sza_lambda=0.95):
     time = pd.to_datetime(dset.time_coverage_start)
 
     tstart = datetime.now()
+    
     #Calculating the cosine of solar zenith angle
     cos_zen_grid = pyob_cos_zen(time, lons, lats)
+    
+    #Making a frequency adjustment to the grid to reduce the impact of Mie Scattering in moist environments
     zen_grid_rad = np.arccos(cos_zen_grid)
-    cos_zen_grid = np.cos(sza_lambda*zen_grid_rad)
+    cos_zen_grid = np.cos(sza_nu*zen_grid_rad)
     #cos_zen_grid = np.clip(cos_zen_grid, 0.087, None)
     # print ('cos SZA Calculation: '+str(datetime.now()-tstart)) #DEVMODE
 
     #Masking out pixels with a sun angle < 0 and too close to sunrise/sunset
-    cos_sza_threshold = np.cos(np.radians(sza_threshold))
-    cos_zen_grid[cos_zen_grid<cos_sza_threshold] = 1
+    cos_zen_grid[zen_grid_rad >= np.radians(90)] = 1
     
     #Applying the solar zenith angle adjustment to the ABI reflectance factor data
     cmi = dset['CMI'][:] #Reflectance factor
@@ -301,7 +303,7 @@ def file_time_converter(time):
 
 
 #A function that takes in a netcdf file, calculates the sza cmi, and outputs that data as a modified copy of the original file
-def sza_io(input_file_str, output_file_loc, sza_threshold = 88.85, sza_lambda = 0.95):
+def sza_io(input_file_str, output_file_loc, sza_threshold = 88.85, sza_nu = 0.968):
     if not os.path.exists(output_file_loc):
         os.makedirs(output_file_loc)
 
@@ -327,7 +329,7 @@ def sza_io(input_file_str, output_file_loc, sza_threshold = 88.85, sza_lambda = 
     dset = nc.Dataset(output_file_loc+output_file_str, 'r+')
 
     #Getting the sza cmi values (currently using default sza_angle_threshold)
-    cmi_sza = sza_calculator_v2_exact(dset, sza_threshold=sza_threshold, sza_lambda=sza_lambda)
+    cmi_sza = sza_calculator_v2_exact(dset, sza_threshold=sza_threshold, sza_nu=sza_nu)
 
     #Overwriting the cmi data with the sza cmi values
     dset.variables['CMI'][:] = cmi_sza
