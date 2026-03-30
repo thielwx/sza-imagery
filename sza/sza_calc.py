@@ -16,6 +16,7 @@ from pyresample import SwathDefinition, kd_tree
 import shutil
 import os
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 
 # Import the locator and datasource according to your desired product
 from goesdl.goesr import GOESProductLocatorABIPP
@@ -372,6 +373,61 @@ def aws_downloader(slots, channels, dload_loc, start_time, end_time):
 
     return dload_file_list
 
+
+
+
+def realtime_slider_ch02(data_loc, slot, output_loc, time_string):
+    #Reading the visible data
+    dset = nc.Dataset(data_loc, 'r')
+    cmi = dset.variables['CMI'][:]
+
+    # Define desired pixels
+    width_px = dset.dimensions['x'].size
+    height_px = dset.dimensions['y'].size
+    dpi = 300 # High DPI for high quality
+
+    output_str = output_loc + 'SZACMIPC-C02-'+slot+'-'+time_string+'.png'
+
+    # Calculate figure size in inches
+    figsize = (width_px / dpi, height_px / dpi) 
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=figsize, dpi=dpi)
+    fig.subplots_adjust(0, 0, 1, 1, 0, 0) # Set the subplot parameters to use the whole figure area
+
+    # Turn off the axis
+    ax.axis('off') # Hide both X and Y axes
+
+    # Display the image
+    ax.imshow(np.sqrt(cmi), cmap='binary_r',vmin=0, vmax=1.3)
+
+    #Save the figure
+    plt.savefig(output_str, dpi=dpi)
+
+
+def rgb_plotter(rgb, slot, output_loc, time_string):
+    # Define desired pixels
+    width_px = 5000
+    height_px = 300
+    dpi = 300 # High DPI for high quality
+
+    output_str = output_loc + 'SZACMIPC-DPCD-'+slot+'-'+time_string+'.png'
+
+    # Calculate figure size in inches
+    figsize = (width_px / dpi, height_px / dpi) 
+
+    # Create figure
+    fig, ax = plt.subplots(figsize=figsize, dpi=dpi)
+    fig.subplots_adjust(0, 0, 1, 1, 0, 0) # Set the subplot parameters to use the whole figure area
+
+    # Turn off the axis
+    ax.axis('off') # Hide both X and Y axes
+
+    # Display the image
+    ax.imshow(rgb)
+
+    #Save the figure
+    plt.savefig(output_str, dpi=dpi)
 
 
 

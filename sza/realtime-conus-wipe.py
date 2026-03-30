@@ -26,6 +26,7 @@ with open('realtime-conus-aws-io.yaml', 'r') as f:
 
 temp_file_loc = sfile['temp-file-loc']
 output_loc = sfile['output-loc']
+fig_output_loc = sfile['fig-output-loc']
 
 #Getting the current time
 start_datetime = datetime.now()
@@ -75,9 +76,9 @@ if len(file_list)>0:
             os.remove(f)
             print (f)
         except FileNotFoundError:
-            print(f"File '{file_path}' not found.")
+            print(f"File '{f}' not found.")
         except PermissionError:
-            print(f"Permission denied to delete the file '{file_path}'.")
+            print(f"Permission denied to delete the file '{f}'.")
         except Exception as e:
             print (f"Error occurred while deleting the file '{f}': {e}")
 
@@ -98,11 +99,61 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
                 os.remove(f)
                 print (f)
             except FileNotFoundError:
-                print(f"File '{file_path}' not found.")
+                print(f"File '{f}' not found.")
             except PermissionError:
-                print(f"Permission denied to delete the file '{file_path}'.")
+                print(f"Permission denied to delete the file '{f}'.")
             except Exception as e:
                 print (f"Error occurred while deleting the file '{f}': {e}")
 
-print ('Finshed, runtime: '+str(datetime.now()-start_datetime))
 
+
+#==========================================================
+#Figures
+#==========================================================
+
+#***********PREV HR**************
+#Getting the previous hours string that we can pull data from
+t = start_datetime - tdelta_hr
+y, m, d, doy, hr, mi = sza.datetime_converter(t)
+hr_str_temp = fig_output_loc + '*s' + y + doy + hr + '*.png'
+
+file_list = glob(hr_str_temp)
+
+#If there's files, delete them
+if len(file_list)>0:
+    for f in file_list:
+        try:
+            os.remove(f)
+            print (f)
+        except FileNotFoundError:
+            print(f"File '{f}' not found.")
+        except PermissionError:
+            print(f"Permission denied to delete the file '{f}'.")
+        except Exception as e:
+            print (f"Error occurred while deleting the file '{f}': {e}")
+
+#***********PREV DAY**************
+#Only run the daily wiper when more than three hours into a day
+if int(datetime.strftime(start_datetime,'%H'))>=3:
+    #Getting the previous day string needed to check    
+    t = start_datetime - tdelta_1day
+    y, m, d, doy, hr, mi = sza.datetime_converter(t)
+    hr_str_temp = fig_output_loc + '*s' + y + doy + '*.nc'
+    
+    file_list = glob(hr_str_temp)
+    
+    #If there's files, delete them
+    if len(file_list)>0:
+        for f in file_list:
+            try:
+                os.remove(f)
+                print (f)
+            except FileNotFoundError:
+                print(f"File '{f}' not found.")
+            except PermissionError:
+                print(f"Permission denied to delete the file '{f}'.")
+            except Exception as e:
+                print (f"Error occurred while deleting the file '{f}': {e}")
+
+
+print ('Finshed, runtime: '+str(datetime.now()-start_datetime))

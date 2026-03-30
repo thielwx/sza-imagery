@@ -12,3 +12,6 @@ temp-file-loc: '/localdata/sza-realtime/temp/'
 output-loc: '/localdata/sza-realtime/data/'
 sza-threshold: 88.85
 timeout-limit: 120
+
+rgb-channels: ['C13']
+fig-output-loc: '/localdata/sza-realtime/figs/'
