@@ -17,6 +17,7 @@ import shutil
 import os
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+from PIL import Image
 
 # Import the locator and datasource according to your desired product
 from goesdl.goesr import GOESProductLocatorABIPP
@@ -403,12 +404,13 @@ def realtime_slider_ch02(data_loc, slot, output_loc, time_string):
 
     #Save the figure
     plt.savefig(output_str, dpi=dpi)
+    print (output_str)
 
 
 def rgb_plotter(rgb, slot, output_loc, time_string):
     # Define desired pixels
     width_px = 5000
-    height_px = 300
+    height_px = 3000
     dpi = 300 # High DPI for high quality
 
     output_str = output_loc + 'SZACMIPC-DPCD-'+slot+'-'+time_string+'.png'
@@ -428,6 +430,18 @@ def rgb_plotter(rgb, slot, output_loc, time_string):
 
     #Save the figure
     plt.savefig(output_str, dpi=dpi)
+    print (output_str)
+
+
+#DOESNT WORK
+def rgb_plotter_v2(rgb, slot, output_loc, time_string):
+
+    output_str = output_loc + 'SZACMIPC-DPCD-'+slot+'-'+time_string+'.png'
+
+    image = Image.fromarray(rgb, 'RGB') 
+    image.save(output_str)
+
+    print (output_str)
 
 
 

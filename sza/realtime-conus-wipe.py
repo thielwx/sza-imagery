@@ -7,7 +7,7 @@
 #===========================================
 
 import sza_calc as sza
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 import os
 import shutil
 from glob import glob
@@ -29,7 +29,7 @@ output_loc = sfile['output-loc']
 fig_output_loc = sfile['fig-output-loc']
 
 #Getting the current time
-start_datetime = datetime.now()
+start_datetime = datetime.now(UTC)
 
 print('**************'+str(start_datetime)+'**************')
 
@@ -156,4 +156,4 @@ if int(datetime.strftime(start_datetime,'%H'))>=3:
                 print (f"Error occurred while deleting the file '{f}': {e}")
 
 
-print ('Finshed, runtime: '+str(datetime.now()-start_datetime))
+print ('Finshed, runtime: '+str(datetime.now(UTC)-start_datetime))
