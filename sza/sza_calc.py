@@ -382,8 +382,8 @@ def realtime_slider_ch02(data_loc, slot, output_loc, time_string):
     cmi = dset.variables['CMI'][:]
 
     # Define desired pixels
-    width_px = dset.dimensions['x'].size
-    height_px = dset.dimensions['y'].size
+    width_px = 5000 #dset.dimensions['x'].size
+    height_px = 3000 #dset.dimensions['y'].size
     dpi = 72 # High DPI for high quality
 
     output_str = output_loc + 'SZACMIPC-C02-'+slot+'-'+time_string+'.png'
