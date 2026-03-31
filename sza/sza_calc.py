@@ -158,15 +158,14 @@ def sza_calculator_v2_exact(dset, sza_threshold=88.85, sza_nu=0.968):
     
     #Calculating the cosine of solar zenith angle
     cos_zen_grid = pyob_cos_zen(time, lons, lats)
+
+    #Setting all night values to 0 so its multplying by the max (determined by nu) at sunset
+    cos_zen_grid[cos_zen_grid<0] = 0
     
     #Making a frequency adjustment to the grid to reduce the impact of Mie Scattering in moist environments
     zen_grid_rad = np.arccos(cos_zen_grid)
     cos_zen_grid = np.cos(sza_nu*zen_grid_rad)
-    #cos_zen_grid = np.clip(cos_zen_grid, 0.087, None)
-    # print ('cos SZA Calculation: '+str(datetime.now()-tstart)) #DEVMODE
 
-    #Masking out pixels with a sun angle < 0 and too close to sunrise/sunset
-    cos_zen_grid[zen_grid_rad >= np.radians(90)] = 1
     
     #Applying the solar zenith angle adjustment to the ABI reflectance factor data
     cmi = dset['CMI'][:] #Reflectance factor
