@@ -384,7 +384,7 @@ def realtime_slider_ch02(data_loc, slot, output_loc, time_string):
     # Define desired pixels
     width_px = dset.dimensions['x'].size
     height_px = dset.dimensions['y'].size
-    dpi = 300 # High DPI for high quality
+    dpi = 72 # High DPI for high quality
 
     output_str = output_loc + 'SZACMIPC-C02-'+slot+'-'+time_string+'.png'
 
@@ -410,7 +410,7 @@ def rgb_plotter(rgb, slot, output_loc, time_string):
     # Define desired pixels
     width_px = 5000
     height_px = 3000
-    dpi = 300 # High DPI for high quality
+    dpi = 72 # High DPI for high quality
 
     output_str = output_loc + 'SZACMIPC-DPCD-'+slot+'-'+time_string+'.png'
 
