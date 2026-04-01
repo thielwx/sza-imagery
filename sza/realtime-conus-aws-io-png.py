@@ -27,7 +27,7 @@ os.chdir(script_dir)
 
 #Getting the current time
 start_datetime = datetime.now(UTC)
-cur_file_time = sza.file_time_converter(start_datetime-timedelta(minutes=10))
+cur_file_time = sza.file_time_converter(start_datetime-timedelta(minutes=5))
 y, m, d, doy, hr, mi = sza.datetime_converter(cur_file_time)
 dload_time = y+'-'+m+'-'+d+'T'+hr+':'+mi+':00Z'
 file_time = 's'+y+doy+hr+mi
