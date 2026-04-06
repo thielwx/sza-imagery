@@ -17,7 +17,8 @@ import shutil
 import os
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-from PIL import Image
+from satpy import Scene
+from satpy.area import get_area_def
 
 # Import the locator and datasource according to your desired product
 from goesdl.goesr import GOESProductLocatorABIPP
@@ -442,6 +443,23 @@ def rgb_plotter_v2(rgb, slot, output_loc, time_string):
 
     print (output_str)
 
+
+def satpy_plotter_slider_v1(red, green, blue, output_loc,):
+    #Get list of file names to read in    
+    filenames = [red, green, blue]
+
+    #Defining the scene and reader for the files    
+    scn = Scene(filenames=filenames, reader='abi_l2_nc')
+    
+    #Loading the datasets requested
+    scn.load(['day_cloud_type_distinction_raw','C02','C05']
+
+    #Resampling the datasets so they all match the 500m resolution of CH02
+    area_def = get_area_def('goes_east_abi_c_500m')
+    scn = scn.resample(area_def, resampler='native')
+
+    #Saving out the datasets
+    scn.save_datasets(writer='simple_image', filename='{platform_shortname}_SZA_{name}_{start_time:%Y%j%H%M}.png)
 
 
 
