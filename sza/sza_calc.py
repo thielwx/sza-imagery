@@ -452,7 +452,7 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
     scn = Scene(filenames=filenames, reader='abi_l2_nc')
     
     #Loading the datasets requested
-    scn.load(['day_cloud_type_distinction_raw','C02','C05']
+    scn.load(['day_cloud_type_distinction_raw','C02','C05'])
 
     #Resampling the datasets so they all match the 500m resolution of CH02
     area_def = get_area_def('goes_east_abi_c_500m')
