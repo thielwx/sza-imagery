@@ -459,7 +459,7 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
     scn = scn.resample(area_def, resampler='native')
 
     #Saving out the datasets
-    scn.save_datasets(writer='simple_image', filename='{platform_shortname}_SZA_{name}_{start_time:%Y%j%H%M}.png)
+    scn.save_datasets(writer='simple_image', filename='{platform_shortname}_SZA_{name}_{start_time:%Y%j%H%M}.png')
 
 
 
