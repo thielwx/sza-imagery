@@ -456,7 +456,7 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
 
     #Resampling the datasets so they all match the 500m resolution of CH02
     area_def = get_area_def('goes_east_abi_c_500m')
-    scn = scn.resample(area_def, resampler='native')
+    scn = scn.resample(area_def, resampler='nearest')
 
     #Saving out the datasets
     scn.save_datasets(writer='simple_image', filename='{platform_shortname}_SZA_{name}_s{start_time:%Y%j%H%M}.png')
