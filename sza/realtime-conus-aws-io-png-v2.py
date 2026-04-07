@@ -69,7 +69,7 @@ def realtime_driver(temp_file, output_loc, sza_threshold):
 
 #sending the file names to be processed
 if __name__ == "__main__":
-    with mp.Pool(processes=12) as p:
+    with mp.Pool(processes=6) as p:
         async_result = p.starmap_async(realtime_driver,zip(temp_file_list, output_list, szath_list))
 
         #Ensuring we don't get a stuck process
@@ -120,7 +120,7 @@ def realtime_image_driver(red, green, blue, output_loc):
 
 #sending the file names to be processed
 if __name__ == "__main__":
-    with mp.Pool(processes=12) as p:
+    with mp.Pool(processes=6) as p:
         async_result = p.starmap_async(realtime_image_driver,zip(r_files, g_files, b_files, fig_output_loc_list))
 
         #Ensuring we don't get a stuck process
