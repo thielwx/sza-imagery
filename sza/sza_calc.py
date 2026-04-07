@@ -19,6 +19,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from satpy import Scene
 from satpy.area import get_area_def
+from satpy.utils import debug_off
 
 # Import the locator and datasource according to your desired product
 from goesdl.goesr import GOESProductLocatorABIPP
@@ -445,6 +446,7 @@ def rgb_plotter_v2(rgb, slot, output_loc, time_string):
 
 
 def satpy_plotter_slider_v1(red, green, blue, output_loc,):
+    debug_off()
     #Get list of file names to read in    
     filenames = [red, green, blue]
 
