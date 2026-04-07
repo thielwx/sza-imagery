@@ -451,13 +451,13 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
     #Defining the scene and reader for the files    
     scn = Scene(filenames=filenames, reader='abi_l2_nc')
 
+    #Loading the datasets requested
+    scn.load(['day_cloud_type_distinction_raw','C02'])
+
     #Resampling the datasets so they all match the 500m resolution of CH02
     area_def = get_area_def('goes_east_abi_c_500m')
     scn = scn.resample(area_def, resampler='nearest')
     
-    #Loading the datasets requested
-    scn.load(['day_cloud_type_distinction_raw','C02','C05'])
-
     #Saving out the datasets
     scn.save_datasets(writer='simple_image', filename=output_loc+'{platform_shortname}_SZA_{name}_s{start_time:%Y%j%H%M}.png')
 
