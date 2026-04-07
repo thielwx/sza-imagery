@@ -457,8 +457,12 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
     scn.load(['day_cloud_type_distinction_raw','C02'])
 
     #Resampling the datasets so they all match the 500m resolution of CH02
-    area_def = get_area_def('goes_east_abi_c_500m')
-    scn = scn.resample(area_def, resampler='nearest')
+    if scn.to_xarray_dataset().attrs['orbital_slot'] == 'GOES-East':
+        area_def = get_area_def('goes_east_abi_c_500m')
+    else:
+        area_def = get_area_def('goes_west_abi_p_500m')
+
+    scn = scn.resample(area_def, resampler='native')
     
     #Saving out the datasets
     scn.save_datasets(writer='simple_image', filename=output_loc+'{platform_shortname}_SZA_{name}_s{start_time:%Y%j%H%M}.png')
