@@ -453,19 +453,24 @@ def satpy_plotter_slider_v1(red, green, blue, output_loc,):
     #Defining the scene and reader for the files    
     scn = Scene(filenames=filenames, reader='abi_l2_nc')
 
-    #Loading the datasets requested
-    scn.load(['day_cloud_type_distinction_raw','C02'])
+    #Loading and reading the channel 2 image first so its output at 0.5km resolution
+    scn.load(['C02'])
+    #Writing out the channel 2 visible data
+    scn.save_dataset('C02', writer='simple_image', filename="{platform_shortname}_SZA_{name}_{start_time:%Y%m%d_%H%M%S}.png")
+
+    #Loading the day cloud phase distinction RGB
+    scn.load(['day_cloud_type_distinction_raw'])
 
     #Resampling the datasets so they all match the 500m resolution of CH02
     if scn.to_xarray_dataset().attrs['orbital_slot'] == 'GOES-East':
-        area_def = get_area_def('goes_east_abi_c_500m')
+        area_def = get_area_def('goes_east_abi_c_1km')
     else:
-        area_def = get_area_def('goes_west_abi_p_500m')
+        area_def = get_area_def('goes_west_abi_p_1km')
 
     scn = scn.resample(area_def, resampler='native')
     
-    #Saving out the datasets
-    scn.save_datasets(writer='simple_image', filename=output_loc+'{platform_shortname}_SZA_{name}_s{start_time:%Y%j%H%M}.png')
+    #Saving out the RGB
+    scn.save_dataset('day_cloud_type_distinction_raw', writer='simple_image', filename="{platform_shortname}_SZA_{name}_{start_time:%Y%m%d_%H%M%S}.png")
 
 
 
