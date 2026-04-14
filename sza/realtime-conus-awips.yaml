@@ -9,8 +9,8 @@
 channels: ['C02','C05']
 slots: ['G19','G18']
 scenes: ['C']
-input-file-loc: '/localdata/sza-realtime/temp/'
-output-loc: '/localdata/sza-realtime/data/'
+input-file-loc: '/Users/kevinthiel/Documents/PyScripts/sza-imagery/test/test-data-20250528-conus/'
+output-loc: '/Users/kevinthiel/Documents/PyScripts/sza-imagery/test/test-data-20250528-conus/'
 
 timeout-limit: 60
 cpu-max: 12
