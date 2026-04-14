@@ -1,0 +1,16 @@
+#========================================================
+# File: realtime-conus-awips.yaml
+# Version: 1.0.0
+# Author: Kevin Thiel
+# Creation Date: April 2026
+# Description: Settings that make realtime-conus-awips.py adaptable
+#========================================================
+
+channels: ['C02','C05']
+slots: ['G19','G18']
+scenes: ['C']
+input-file-loc: '/localdata/sza-realtime/temp/'
+output-loc: '/localdata/sza-realtime/data/'
+
+timeout-limit: 60
+cpu-max: 12
