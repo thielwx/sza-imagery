@@ -3,7 +3,7 @@
 # Version: 1.0.0
 # Author: Kevin Thiel
 # Creation Date: March 2026
-# Description: Settings that make realtime-conus-aws-io.py adaptable
+# Description: Settings that make realtime-conus-aws-io.....py adaptable
 #========================================================
 
 channels: ['C02','C05']
@@ -14,4 +14,5 @@ sza-threshold: 88.85
 timeout-limit: 120
 
 rgb-channels: ['C13']
-fig-output-loc: '/localdata/sza-realtime/figs/'
+fig-output-loc: '/ftp/' #SENDING TO SFTP SERVER FOR CIRA SLIDER
+#fig-output-loc: '/localdata/sza-realtime/figs/' #OLD OUTPUT ON DEVLAB4
