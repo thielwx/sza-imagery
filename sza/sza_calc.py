@@ -171,7 +171,7 @@ def sza_calculator_v2_exact(dset, sza_threshold=88.85, sza_nu=0.968):
     
     #Applying the solar zenith angle adjustment to the ABI reflectance factor data
     cmi = dset['CMI'][:] #Reflectance factor
-    sza_cmi = np.clip(cmi / cos_zen_grid, a_max=129.999) #Clipping so we aren't going over the max value in AWIPS
+    sza_cmi = np.clip(cmi / cos_zen_grid, a_min=None, a_max=129.999) #Clipping so we aren't going over the max value in AWIPS
     sza_cmi = np.round(sza_cmi, decimals=5) #Rounding to avoid bit depth issues between float64 and int32 in the CMI netCDFs
 
     return sza_cmi
